@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,528 +9,154 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#05080f;
-  --surface:#0a111e;
-  --surface2:#0f1a2c;
-  --border:#1c2a40;
-  --border-glow:#2a4060;
-  --text:#eef5ff;
-  --text-dim:#7b8fae;
-  --accent:#00e0ff;
-  --accent2:#0066ff;
-  --call:#00e5a0;
-  --put:#ff4d6a;
-  --wait:#e6bd55;
-  --radius:20px;
-  --radius-sm:12px;
+  --bg:#05080f;--surface:#0a111e;--surface2:#0f1a2c;
+  --border:#1c2a40;--border-glow:#2a4060;
+  --text:#eef5ff;--text-dim:#7b8fae;
+  --accent:#00e0ff;--accent2:#0066ff;
+  --call:#00e5a0;--put:#ff4d6a;--wait:#e6bd55;
+  --radius:20px;--radius-sm:12px;
   --shadow:0 25px 50px -12px rgba(0,0,0,0.8);
 }
 html{scroll-behavior:smooth}
 body{
-  background:var(--bg);
-  color:var(--text);
+  background:var(--bg);color:var(--text);
   font-family:'Inter',system-ui,-apple-system,sans-serif;
-  padding:16px;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-image:radial-gradient(ellipse at 20% 0%, rgba(0,224,255,0.06) 0%, transparent 60%),
-                   radial-gradient(ellipse at 80% 100%, rgba(0,102,255,0.06) 0%, transparent 60%);
+  padding:16px;min-height:100vh;display:flex;
+  align-items:center;justify-content:center;
+  background-image:radial-gradient(ellipse at 20% 0%,rgba(0,224,255,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(0,102,255,0.06) 0%,transparent 60%);
 }
 .app{width:100%;max-width:980px}
-
-/* ---- HEADER ---- */
 .header{
-  position:relative;
-  text-align:center;
-  padding:48px 20px 40px;
-  background:linear-gradient(160deg, #0a1628 0%, #060c16 100%);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  margin-bottom:20px;
-  overflow:hidden;
+  position:relative;text-align:center;padding:48px 20px 40px;
+  background:linear-gradient(160deg,#0a1628 0%,#060c16 100%);
+  border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:20px;overflow:hidden;
 }
 .header::before{
-  content:'';
-  position:absolute;
-  top:-50%;left:-50%;
+  content:'';position:absolute;top:-50%;left:-50%;
   width:200%;height:200%;
-  background:radial-gradient(circle at 30% 30%, rgba(0,224,255,0.08), transparent 50%);
-  animation:rotateGlow 20s linear infinite;
-  pointer-events:none;
+  background:radial-gradient(circle at 30% 30%,rgba(0,224,255,0.08),transparent 50%);
+  animation:rotateGlow 20s linear infinite;pointer-events:none;
 }
-@keyframes rotateGlow{
-  0%{transform:rotate(0deg)}
-  100%{transform:rotate(360deg)}
-}
+@keyframes rotateGlow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 .logo-wrap{position:relative;z-index:1;display:inline-block}
 .logo{
-  font-size:clamp(36px,7vw,58px);
-  font-weight:900;
-  letter-spacing:-2px;
+  font-size:clamp(36px,7vw,58px);font-weight:900;letter-spacing:-2px;
   background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--accent2) 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  line-height:1.1;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1.1;
   filter:drop-shadow(0 0 30px rgba(0,224,255,0.3));
 }
 .logo small{
-  font-size:clamp(14px,2.5vw,18px);
-  font-weight:600;
-  letter-spacing:6px;
-  display:block;
-  margin-top:6px;
+  font-size:clamp(14px,2.5vw,18px);font-weight:600;
+  letter-spacing:6px;display:block;margin-top:6px;
   background:linear-gradient(90deg,var(--text-dim),var(--accent));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-.header-sub{
-  position:relative;z-index:1;
-  font-size:11px;
-  color:var(--text-dim);
-  letter-spacing:4px;
-  margin-top:18px;
-  text-transform:uppercase;
-}
+.header-sub{position:relative;z-index:1;font-size:11px;color:var(--text-dim);letter-spacing:4px;margin-top:18px;text-transform:uppercase}
 .header-sub span{color:var(--accent);font-weight:700}
-
-/* ---- CARDS ---- */
 .card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:24px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
-  transition:border-color .3s;
-  position:relative;
-  overflow:hidden;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;margin-bottom:18px;
+  box-shadow:var(--shadow);transition:border-color .3s;
+  position:relative;overflow:hidden;
 }
 .card:hover{border-color:var(--border-glow)}
-.card::after{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,224,255,0.15),transparent);
-}
-h3{
-  font-size:11px;
-  color:var(--text-dim);
-  letter-spacing:2.5px;
-  text-transform:uppercase;
-  margin-bottom:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-h3::before{
-  content:'';
-  width:4px;height:16px;
-  border-radius:2px;
-  background:linear-gradient(180deg,var(--accent),var(--accent2));
-  display:inline-block;
-}
-
-/* ---- FORM ---- */
-label{
-  display:block;
-  font-size:11px;
-  color:var(--text-dim);
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin:16px 0 8px;
-  font-weight:600;
-}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,224,255,0.15),transparent)}
+h3{font-size:11px;color:var(--text-dim);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+h3::before{content:'';width:4px;height:16px;border-radius:2px;background:linear-gradient(180deg,var(--accent),var(--accent2));display:inline-block}
+label{display:block;font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin:16px 0 8px;font-weight:600}
 input,select{
-  width:100%;
-  padding:15px 18px;
-  background:var(--surface2);
-  color:var(--text);
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  outline:none;
-  font-size:14px;
-  font-family:inherit;
-  transition:all .25s;
-  appearance:none;
-  -webkit-appearance:none;
+  width:100%;padding:15px 18px;background:var(--surface2);
+  color:var(--text);border:1px solid var(--border);
+  border-radius:var(--radius-sm);outline:none;font-size:14px;
+  font-family:inherit;transition:all .25s;appearance:none;-webkit-appearance:none;
 }
-input:focus,select:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 4px rgba(0,224,255,0.08);
-  background:#0d1626;
-}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,224,255,0.08);background:#0d1626}
 input::placeholder{color:#3d5068}
 select{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237b8fae' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right 18px center;
-  padding-right:48px;
-  cursor:pointer;
+  background-repeat:no-repeat;background-position:right 18px center;padding-right:48px;cursor:pointer;
 }
 select option{background:#0a111e;color:var(--text)}
-
 .controls{display:grid;gap:0 20px}
-@media(min-width:700px){
-  .controls{grid-template-columns:1fr 1fr}
-  .full{grid-column:1/-1}
-}
-
-/* ---- BUTTONS ---- */
-button{
-  border:0;
-  border-radius:var(--radius-sm);
-  padding:16px 22px;
-  font-weight:700;
-  cursor:pointer;
-  font-size:13px;
-  font-family:inherit;
-  letter-spacing:.5px;
-  transition:all .25s;
-  position:relative;
-  overflow:hidden;
-}
+@media(min-width:700px){.controls{grid-template-columns:1fr 1fr}.full{grid-column:1/-1}}
+button{border:0;border-radius:var(--radius-sm);padding:16px 22px;font-weight:700;cursor:pointer;font-size:13px;font-family:inherit;letter-spacing:.5px;transition:all .25s;position:relative;overflow:hidden}
 button:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
 button:active:not(:disabled){transform:scale(.97)}
-
-.main{
-  width:100%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#001018;
-  margin-top:22px;
-  box-shadow:0 8px 30px -6px rgba(0,224,255,0.35);
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-}
-.main:hover:not(:disabled){
-  box-shadow:0 12px 40px -4px rgba(0,224,255,0.5);
-  transform:translateY(-1px);
-}
-
-.download{
-  width:100%;
-  background:linear-gradient(135deg,#d6a83c,#b8892a);
-  color:#0a0800;
-  margin-top:14px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  box-shadow:0 8px 24px -6px rgba(214,168,60,0.3);
-}
+.main{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#001018;margin-top:22px;box-shadow:0 8px 30px -6px rgba(0,224,255,0.35);text-transform:uppercase;letter-spacing:1.5px}
+.main:hover:not(:disabled){box-shadow:0 12px 40px -4px rgba(0,224,255,0.5);transform:translateY(-1px)}
+.download{width:100%;background:linear-gradient(135deg,#d6a83c,#b8892a);color:#0a0800;margin-top:14px;text-transform:uppercase;letter-spacing:1px;box-shadow:0 8px 24px -6px rgba(214,168,60,0.3)}
 .download:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 32px -4px rgba(214,168,60,0.4)}
-
-.secondary{
-  width:100%;
-  background:var(--surface2);
-  color:var(--text);
-  border:1px solid var(--border);
-  margin-top:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
+.secondary{width:100%;background:var(--surface2);color:var(--text);border:1px solid var(--border);margin-top:12px;text-transform:uppercase;letter-spacing:1px}
 .secondary:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-
-.result-btn{
-  width:100%;
-  background:linear-gradient(135deg,#8b5cf6,#6d28d9);
-  color:#fff;
-  margin-top:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  box-shadow:0 8px 24px -6px rgba(139,92,246,0.4);
-}
+.result-btn{width:100%;background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;margin-top:12px;text-transform:uppercase;letter-spacing:1px;box-shadow:0 8px 24px -6px rgba(139,92,246,0.4)}
 .result-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 32px -4px rgba(139,92,246,0.5)}
-
-.btn-small{
-  padding:12px 18px;
-  font-size:12px;
-  margin-top:16px;
-}
-
-/* ---- STATUS ---- */
-.status{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:16px;
-  line-height:1.7;
-  overflow-wrap:anywhere;
-  padding:12px 16px;
-  background:var(--surface2);
-  border-radius:var(--radius-sm);
-  border-left:3px solid var(--border);
-  transition:border-color .3s;
-}
+.btn-small{padding:12px 18px;font-size:12px;margin-top:16px}
+.status{font-size:12px;color:var(--text-dim);margin-top:16px;line-height:1.7;overflow-wrap:anywhere;padding:12px 16px;background:var(--surface2);border-radius:var(--radius-sm);border-left:3px solid var(--border);transition:border-color .3s}
 .status:has(.green){border-left-color:var(--call)}
 .status:has(.red){border-left-color:var(--put)}
 .status:has(.yellow){border-left-color:var(--wait)}
-.green{color:var(--call)}
-.red{color:var(--put)}
-.yellow{color:var(--wait)}
-
-/* ---- SIGNAL DISPLAY ---- */
-.signal{
-  text-align:center;
-  background:linear-gradient(160deg,#0a1526,#060c14);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:40px 24px;
-  position:relative;
-  overflow:hidden;
-}
-.signal::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 50% 0%, rgba(0,224,255,0.05), transparent 60%);
-  pointer-events:none;
-}
-.signal-label{
-  font-size:10px;
-  color:var(--text-dim);
-  letter-spacing:4px;
-  text-transform:uppercase;
-  font-weight:600;
-  position:relative;
-  z-index:1;
-}
-.direction{
-  font-size:clamp(48px,12vw,76px);
-  font-weight:900;
-  letter-spacing:-3px;
-  margin:18px 0 12px;
-  line-height:1;
-  position:relative;
-  z-index:1;
-  transition:all .4s;
-}
+.green{color:var(--call)}.red{color:var(--put)}.yellow{color:var(--wait)}
+.signal{text-align:center;background:linear-gradient(160deg,#0a1526,#060c14);border:1px solid var(--border);border-radius:var(--radius);padding:40px 24px;position:relative;overflow:hidden}
+.signal::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(0,224,255,0.05),transparent 60%);pointer-events:none}
+.signal-label{font-size:10px;color:var(--text-dim);letter-spacing:4px;text-transform:uppercase;font-weight:600;position:relative;z-index:1}
+.direction{font-size:clamp(48px,12vw,76px);font-weight:900;letter-spacing:-3px;margin:18px 0 12px;line-height:1;position:relative;z-index:1;transition:all .4s}
 .call{color:var(--call);text-shadow:0 0 50px rgba(0,229,160,0.4)}
 .put{color:var(--put);text-shadow:0 0 50px rgba(255,77,106,0.4)}
 .wait{color:var(--wait);text-shadow:0 0 50px rgba(230,189,85,0.3)}
-.pair-title{
-  font-size:clamp(20px,4vw,28px);
-  font-weight:800;
-  letter-spacing:1px;
-  position:relative;
-  z-index:1;
-}
-.market-time{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:12px;
-  position:relative;
-  z-index:1;
-  font-variant-numeric:tabular-nums;
-  letter-spacing:1px;
-}
-
-/* ---- STATS GRID ---- */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin-top:20px;
-}
+.pair-title{font-size:clamp(20px,4vw,28px);font-weight:800;letter-spacing:1px;position:relative;z-index:1}
+.market-time{font-size:12px;color:var(--text-dim);margin-top:12px;position:relative;z-index:1;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-
-.stat{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  padding:16px;
-  min-width:0;
-  transition:all .25s;
-  position:relative;
-  overflow:hidden;
-}
+.stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;min-width:0;transition:all .25s;position:relative;overflow:hidden}
 .stat:hover{border-color:var(--border-glow);transform:translateY(-2px)}
-.stat::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:2px;
-  background:linear-gradient(90deg,transparent,rgba(0,224,255,0.2),transparent);
-  opacity:0;
-  transition:opacity .3s;
-}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,224,255,0.2),transparent);opacity:0;transition:opacity .3s}
 .stat:hover::before{opacity:1}
-.stat small{
-  font-size:9px;
-  color:var(--text-dim);
-  letter-spacing:2px;
-  text-transform:uppercase;
-  font-weight:600;
-}
-.stat strong{
-  display:block;
-  font-size:16px;
-  margin-top:10px;
-  overflow-wrap:anywhere;
-  font-variant-numeric:tabular-nums;
-  letter-spacing:.5px;
-}
-
-/* ---- CHART ---- */
-.chart-wrap{
-  width:100%;
-  overflow:hidden;
-  border-radius:var(--radius-sm);
-  background:#060d16;
-  border:1px solid var(--border);
-  position:relative;
-}
+.stat small{font-size:9px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.stat strong{display:block;font-size:16px;margin-top:10px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+.chart-wrap{width:100%;overflow:hidden;border-radius:var(--radius-sm);background:#060d16;border:1px solid var(--border);position:relative}
 canvas{width:100%;height:auto;display:block}
-
-.note{
-  font-size:10px;
-  color:#526a88;
-  margin-top:14px;
-  line-height:1.7;
-  letter-spacing:.5px;
-}
-
-/* ---- FOOTER ---- */
-.footer{
-  text-align:center;
-  color:#2f4058;
-  font-size:11px;
-  padding:30px 20px 20px;
-  letter-spacing:1px;
-  line-height:1.8;
-}
+.note{font-size:10px;color:#526a88;margin-top:14px;line-height:1.7;letter-spacing:.5px}
+.footer{text-align:center;color:#2f4058;font-size:11px;padding:30px 20px 20px;letter-spacing:1px;line-height:1.8}
 .footer strong{color:var(--text-dim);font-weight:600}
-
-/* ---- MISC ---- */
-.pair-info{
-  font-size:10px;
-  color:#3d5068;
-  margin-top:8px;
-  letter-spacing:.5px;
-}
-
-/* ---- PULSE DOT ---- */
-.pulse-dot{
-  display:inline-block;
-  width:7px;height:7px;
-  border-radius:50%;
-  background:var(--accent);
-  margin-right:8px;
-  box-shadow:0 0 12px var(--accent);
-  animation:pulse 2s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.4;transform:scale(.8)}
-}
-
-/* ---- RESULT INLINE CARD ---- */
-#resultCard {
-  display: none;
-  border-color: #4ca9ff;
-  box-shadow: 0 0 30px rgba(76, 169, 255, 0.15);
-}
-#resultCard.active {
-  display: block;
-  animation: fadeUp 0.5s ease both;
-}
-.result-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.result-title {
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.result-badge {
-  display: inline-block;
-  font-size: 42px;
-  font-weight: 900;
-  padding: 10px 40px;
-  border-radius: var(--radius-sm);
-  letter-spacing: -2px;
-}
-.result-badge.win {
-  color: var(--call);
-  background: rgba(0, 229, 160, 0.1);
-  border: 1px solid rgba(0, 229, 160, 0.3);
-  text-shadow: 0 0 20px rgba(0, 229, 160, 0.5);
-}
-.result-badge.loss {
-  color: var(--put);
-  background: rgba(255, 77, 106, 0.1);
-  border: 1px solid rgba(255, 77, 106, 0.3);
-  text-shadow: 0 0 20px rgba(255, 77, 106, 0.5);
-}
-.result-badge.draw {
-  color: var(--wait);
-  background: rgba(230, 189, 85, 0.1);
-  border: 1px solid rgba(230, 189, 85, 0.3);
-}
-.result-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.result-stat-box {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  text-align: center;
-}
-.result-stat-box small {
-  display: block;
-  font-size: 10px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  letter-spacing: 1px;
-}
-.result-stat-box strong {
-  font-size: 16px;
-  font-variant-numeric: tabular-nums;
-}
-.result-chart-wrap {
-  width: 100%;
-  border-radius: var(--radius-sm);
-  background: #060d16;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
+.pair-info{font-size:10px;color:#3d5068;margin-top:8px;letter-spacing:.5px}
+.pulse-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;box-shadow:0 0 12px var(--accent);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+#resultCard{display:none;border-color:#4ca9ff;box-shadow:0 0 30px rgba(76,169,255,0.15)}
+#resultCard.active{display:block;animation:fadeUp .5s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.result-header{text-align:center;margin-bottom:20px}
+.result-title{font-size:11px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.result-badge{display:inline-block;font-size:42px;font-weight:900;padding:10px 40px;border-radius:var(--radius-sm);letter-spacing:-2px}
+.result-badge.win{color:var(--call);background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);text-shadow:0 0 20px rgba(0,229,160,0.5)}
+.result-badge.loss{color:var(--put);background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);text-shadow:0 0 20px rgba(255,77,106,0.5)}
+.result-badge.draw{color:var(--wait);background:rgba(230,189,85,0.1);border:1px solid rgba(230,189,85,0.3)}
+.result-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.result-stat-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.result-stat-box small{display:block;font-size:10px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;letter-spacing:1px}
+.result-stat-box strong{font-size:16px;font-variant-numeric:tabular-nums}
+.result-chart-wrap{width:100%;border-radius:var(--radius-sm);background:#060d16;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
 </style>
 </head>
 
 <body>
 <div class="app">
 
-<!-- HEADER -->
 <div class="header">
   <div class="logo-wrap">
-    <div class="logo">
-      STB SIGNAL
-      <small>PRO</small>
-    </div>
+    <div class="logo">STB SIGNAL<small>PRO</small></div>
   </div>
   <div class="header-sub">Professional Market Analysis <span>•</span> Powered by STB</div>
 </div>
 
-<!-- 01 / CONFIG -->
 <div class="card">
   <h3>01 / API Configuration</h3>
-
   <div class="controls">
     <div class="full">
       <label>API Key</label>
       <input id="key" type="password" placeholder="Enter your API key" autocomplete="off">
     </div>
-
     <div class="full">
       <label>Trading Pair</label>
       <select id="pair">
@@ -563,7 +190,6 @@ canvas{width:100%;height:auto;display:block}
           <option value="NZDCAD_otc">NZD/CAD OTC</option>
           <option value="NZDCHF_otc">NZD/CHF OTC</option>
         </optgroup>
-
         <optgroup label="Exotic Forex OTC">
           <option value="USDINR_otc">USD/INR OTC</option>
           <option value="USDBRL_otc">USD/BRL OTC</option>
@@ -582,7 +208,6 @@ canvas{width:100%;height:auto;display:block}
           <option value="USDNGN_otc">USD/NGN OTC</option>
           <option value="EURSGD_otc">EUR/SGD OTC</option>
         </optgroup>
-
         <optgroup label="Crypto OTC">
           <option value="BTCUSD_otc">BTC/USD OTC</option>
           <option value="ETHUSD_otc">ETH/USD OTC</option>
@@ -595,14 +220,12 @@ canvas{width:100%;height:auto;display:block}
           <option value="DOTUSD_otc">DOT/USD OTC</option>
           <option value="BONUSD_otc">BON/USD OTC</option>
         </optgroup>
-
         <optgroup label="Metals & Energy OTC">
           <option value="XAUUSD_otc">GOLD OTC</option>
           <option value="XAGUSD_otc">SILVER OTC</option>
           <option value="UKOIL_otc">UK OIL OTC</option>
           <option value="USOIL_otc">US OIL OTC</option>
         </optgroup>
-
         <optgroup label="Stocks OTC">
           <option value="MSFT_otc">MICROSOFT OTC</option>
           <option value="META_otc">META OTC</option>
@@ -616,7 +239,6 @@ canvas{width:100%;height:auto;display:block}
       </select>
       <div class="pair-info">Pair availability depends on API support.</div>
     </div>
-
     <div>
       <label>Timeframe</label>
       <select id="tf">
@@ -625,7 +247,6 @@ canvas{width:100%;height:auto;display:block}
         <option value="M15">M15 — 15 Minutes</option>
       </select>
     </div>
-
     <div>
       <label>Candle Count</label>
       <select id="count">
@@ -635,22 +256,18 @@ canvas{width:100%;height:auto;display:block}
       </select>
     </div>
   </div>
-
   <button class="main" id="analyze">Scan Market &amp; Generate Signal</button>
   <div class="status" id="status"><span class="pulse-dot"></span>WAITING FOR API CONNECTION</div>
 </div>
 
-<!-- 02 / SIGNAL -->
 <div class="card">
   <h3>02 / Signal Information</h3>
-
   <div class="signal">
     <div class="signal-label">STB Market Analysis</div>
     <div class="direction wait" id="direction">WAITING</div>
     <div class="pair-title" id="pairTitle">EUR/USD OTC</div>
     <div class="market-time" id="marketTime">BANGLADESH TIME: --</div>
   </div>
-
   <div class="grid">
     <div class="stat"><small>Entry Time</small><strong id="entry">--</strong></div>
     <div class="stat"><small>Timeframe</small><strong id="timeframe">M1</strong></div>
@@ -659,56 +276,32 @@ canvas{width:100%;height:auto;display:block}
     <div class="stat"><small>EMA 21</small><strong id="ema21">--</strong></div>
     <div class="stat"><small>Analyzed Candles</small><strong id="total">--</strong></div>
   </div>
-
   <button class="result-btn" id="result">📊 Check Result</button>
 </div>
 
-<!-- 03 / CHART -->
 <div class="card">
   <h3>03 / Live API Candle Chart</h3>
-  <div class="chart-wrap">
-    <canvas id="chart" width="1200" height="620"></canvas>
-  </div>
+  <div class="chart-wrap"><canvas id="chart" width="1200" height="620"></canvas></div>
   <div class="note">REAL CANDLE DATA FROM API • EMA 9 / EMA 21 ANALYSIS • ARROW SHOWS DIRECTION BEFORE ENTRY</div>
 </div>
 
-<!-- RESULT CARD (HIDDEN BY DEFAULT) -->
 <div class="card" id="resultCard">
   <h3>TRADE RESULT ANALYSIS</h3>
-  
   <div class="result-header">
     <div class="result-title" id="resPairLabel">EUR/USD OTC • M1</div>
     <div class="result-badge win" id="resBadge">WIN</div>
   </div>
-
   <div class="result-stats">
-    <div class="result-stat-box">
-      <small>Direction</small>
-      <strong id="resDirection">CALL</strong>
-    </div>
-    <div class="result-stat-box">
-      <small>Entry Time</small>
-      <strong id="resEntryTime">03:30</strong>
-    </div>
-    <div class="result-stat-box">
-      <small>Ref Close</small>
-      <strong id="resRefClose">0.0000</strong>
-    </div>
-    <div class="result-stat-box">
-      <small>Entry Close</small>
-      <strong id="resEntryClose">0.0000</strong>
-    </div>
+    <div class="result-stat-box"><small>Direction</small><strong id="resDirection">CALL</strong></div>
+    <div class="result-stat-box"><small>Entry Time</small><strong id="resEntryTime">03:30</strong></div>
+    <div class="result-stat-box"><small>Ref Close</small><strong id="resRefClose">0.0000</strong></div>
+    <div class="result-stat-box"><small>Entry Close</small><strong id="resEntryClose">0.0000</strong></div>
   </div>
-
-  <div class="result-chart-wrap">
-    <canvas id="resultChart" width="1200" height="300"></canvas>
-  </div>
+  <div class="result-chart-wrap"><canvas id="resultChart" width="1200" height="300"></canvas></div>
   <div class="note">RESULT CHART SHOWS THE CANDLE AT ENTRY TIME • GENERATED BY STB</div>
-
   <button class="download btn-small" id="downloadResultBtn">Download Result PNG</button>
 </div>
 
-<!-- 04 / SCREENSHOT -->
 <div class="card">
   <h3>04 / Professional Screenshot</h3>
   <p style="font-size:12px;color:var(--text-dim);line-height:1.8;margin-bottom:16px">
@@ -718,12 +311,7 @@ canvas{width:100%;height:auto;display:block}
   <button class="secondary" id="refresh">Refresh API Data</button>
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-  <strong>STB SIGNAL PRO</strong> © 2026<br>
-  Designed by STB Owner
-</div>
-
+<div class="footer"><strong>STB SIGNAL PRO</strong> © 2026<br>Designed by STB Owner</div>
 </div>
 
 <script>
@@ -731,127 +319,116 @@ canvas{width:100%;height:auto;display:block}
 
 const API = "https://bangladeshitrader.com/chart/Qx.php";
 
-let candles = [];
-let signal = "WAITING";
-let ema9 = null;
-let ema21 = null;
-let latestPrice = null;
-let lastUpdate = "--";
-let entryTime = "--";
-let currentPair = "EUR/USD OTC";
-let currentTF = "M1";
-let lastRaw = null;
-let entryIndex = -1; 
-let resultCandles = []; // Store result chart candles
-let currentResultData = null;
+let candles=[];
+let signal="WAITING";
+let ema9=null;
+let ema21=null;
+let latestPrice=null;
+let lastUpdate="--";
+let entryTime="--";
+let currentPair="EUR/USD OTC";
+let currentTF="M1";
+let lastRaw=null;
+let entryIndex=-1;
+let resultCandles=[];
+let currentResultData=null;
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-/* ---------- UTILITY ---------- */
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, ch => ({
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,ch=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[ch]));
 }
 
-function setStatus(message, type = "") {
-  $("status").innerHTML =
-    '<span class="' + type + '">● ' + escapeHTML(message) + '</span>';
+function setStatus(message,type=""){
+  $("status").innerHTML='<span class="'+type+'">● '+escapeHTML(message)+'</span>';
 }
 
-function num(obj, keys) {
-  if (!obj || typeof obj !== "object") return null;
-  for (const key of keys) {
-    if (obj[key] !== undefined && obj[key] !== null && obj[key] !== "") {
-      const value = Number(obj[key]);
-      if (Number.isFinite(value)) return value;
+function num(obj,keys){
+  if(!obj||typeof obj!=="object")return null;
+  for(const key of keys){
+    if(obj[key]!==undefined&&obj[key]!==null&&obj[key]!==""){
+      const value=Number(obj[key]);
+      if(Number.isFinite(value))return value;
     }
   }
   return null;
 }
 
-function candleData(c) {
+function candleData(c){
   return {
-    open: num(c,["open","o","Open"]),
-    high: num(c,["high","h","High"]),
-    low: num(c,["low","l","Low"]),
-    close: num(c,["close","c","Close"]),
-    time: c.time ?? c.timestamp ?? c.date ?? c.t ?? null
+    open:num(c,["open","o","Open"]),
+    high:num(c,["high","h","High"]),
+    low:num(c,["low","l","Low"]),
+    close:num(c,["close","c","Close"]),
+    time:c.time??c.timestamp??c.date??c.t??null
   };
 }
 
-function ema(values, period) {
-  if (values.length < period) return null;
-  let result = values.slice(0,period).reduce((a,b)=>a+b,0)/period;
-  const k = 2/(period+1);
-  for (let i=period;i<values.length;i++) {
-    result = values[i]*k + result*(1-k);
-  }
+function ema(values,period){
+  if(values.length<period)return null;
+  let result=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
+  const k=2/(period+1);
+  for(let i=period;i<values.length;i++)result=values[i]*k+result*(1-k);
   return result;
 }
 
-function formatPrice(n) {
-  if (n === null || !Number.isFinite(Number(n))) return "--";
-  const value = Number(n);
+function formatPrice(n){
+  if(n===null||!Number.isFinite(Number(n)))return "--";
+  const value=Number(n);
   return value.toFixed(Math.abs(value)>=1000?2:Math.abs(value)>=10?4:6);
 }
 
-function dhakaTime() {
+function dhakaTime(){
   return new Intl.DateTimeFormat("en-GB",{
-    timeZone:"Asia/Dhaka",
-    hour:"2-digit",minute:"2-digit",second:"2-digit",
-    hour12:false
+    timeZone:"Asia/Dhaka",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
   }).format(new Date());
 }
 
-function getEntryTime() {
-  const parts = new Intl.DateTimeFormat("en-GB",{
+function getEntryTime(){
+  const parts=new Intl.DateTimeFormat("en-GB",{
     timeZone:"Asia/Dhaka",hour:"2-digit",minute:"2-digit",hour12:false
   }).formatToParts(new Date());
-  const p = {};
+  const p={};
   parts.forEach(v=>p[v.type]=v.value);
-  const mins = Number(currentTF.substring(1));
-  let total = Number(p.hour)*60+Number(p.minute);
-  total = (Math.floor(total/mins)*mins+mins)%(24*60);
-  return String(Math.floor(total/60)).padStart(2,"0")+":"+
-         String(total%60).padStart(2,"0");
+  const mins=Number(currentTF.substring(1));
+  let total=Number(p.hour)*60+Number(p.minute);
+  total=(Math.floor(total/mins)*mins+mins)%(24*60);
+  return String(Math.floor(total/60)).padStart(2,"0")+":"+String(total%60).padStart(2,"0");
 }
 
-function displayPair(value) {
-  const name = value.replace(/_otc$/i,"").toUpperCase();
-  const match = name.match(/^([A-Z]{3})([A-Z]{3})$/);
-  return (match ? match[1]+"/"+match[2] : name)+" OTC";
+function displayPair(value){
+  const name=value.replace(/_otc$/i,"").toUpperCase();
+  const match=name.match(/^([A-Z]{3})([A-Z]{3})$/);
+  return (match?match[1]+"/"+match[2]:name)+" OTC";
 }
 
-function getCandleTimeStr(cTime) {
-  if (!cTime) return null;
-  if (typeof cTime === 'number') {
-    let d = new Date(cTime);
-    return String(d.getHours()).padStart(2,'0') + ":" + String(d.getMinutes()).padStart(2,'0');
+function getCandleTimeStr(cTime){
+  if(!cTime)return null;
+  if(typeof cTime==="number"){
+    let d=new Date(cTime);
+    return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
   }
-  let match = String(cTime).match(/(\d{1,2}):(\d{2})/);
-  if (match) return String(match[1]).padStart(2,'0') + ":" + match[2];
+  let match=String(cTime).match(/(\d{1,2}):(\d{2})/);
+  if(match)return String(match[1]).padStart(2,"0")+":"+match[2];
   return null;
 }
 
-function addMinsToTime(timeStr, minsToAdd) {
-  let parts = timeStr.split(":");
-  let totalMins = Number(parts[0]) * 60 + Number(parts[1]) + minsToAdd;
-  totalMins = (totalMins + 24 * 60) % (24 * 60); 
-  let h = Math.floor(totalMins / 60);
-  let m = totalMins % 60;
-  return String(h).padStart(2,'0') + ":" + String(m).padStart(2,'0');
+function addMinsToTime(timeStr,minsToAdd){
+  let parts=timeStr.split(":");
+  let totalMins=Number(parts[0])*60+Number(parts[1])+minsToAdd;
+  totalMins=(totalMins+24*60)%(24*60);
+  let h=Math.floor(totalMins/60);
+  let m=totalMins%60;
+  return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
 }
 
-/* ---------- CHART HELPERS ---------- */
-function drawEmptyChart(canvasId, message="SELECT PAIR AND SCAN MARKET") {
+function drawEmptyChart(canvasId,message="SELECT PAIR AND SCAN MARKET"){
   const c=$(canvasId),x=c.getContext("2d");
   const w=c.width,h=c.height;
-
-  x.fillStyle="#060d16";
-  x.fillRect(0,0,w,h);
+  x.fillStyle="#060d16";x.fillRect(0,0,w,h);
   x.strokeStyle="#132033";
-
   for(let i=0;i<=5;i++){
     const yy=70+i*(h/5.5);
     x.beginPath();x.moveTo(85,yy);x.lineTo(w-25,yy);x.stroke();
@@ -860,35 +437,28 @@ function drawEmptyChart(canvasId, message="SELECT PAIR AND SCAN MARKET") {
     const xx=85+i*((w-110)/10);
     x.beginPath();x.moveTo(xx,65);x.lineTo(xx,h-40);x.stroke();
   }
-
-  x.textAlign="center";
-  x.fillStyle="#00e0ff";
-  x.font="bold 27px Arial";
+  x.textAlign="center";x.fillStyle="#00e0ff";x.font="bold 27px Arial";
   x.fillText("STB SIGNAL PRO",w/2,h/2-20);
-
-  x.fillStyle="#4a6485";
-  x.font="16px Arial";
+  x.fillStyle="#4a6485";x.font="16px Arial";
   x.fillText(message,w/2,h/2+20);
 }
 
-function extractCandles(json) {
-  if(Array.isArray(json)) return json;
-  if(!json || typeof json!=="object") return null;
-  if(Array.isArray(json.data)) return json.data;
-  if(Array.isArray(json.candles)) return json.candles;
-  if(Array.isArray(json.result)) return json.result;
-  if(json.data && Array.isArray(json.data.candles)) return json.data.candles;
-  if(json.result && Array.isArray(json.result.candles)) return json.result.candles;
+function extractCandles(json){
+  if(Array.isArray(json))return json;
+  if(!json||typeof json!=="object")return null;
+  if(Array.isArray(json.data))return json.data;
+  if(Array.isArray(json.candles))return json.candles;
+  if(Array.isArray(json.result))return json.result;
+  if(json.data&&Array.isArray(json.data.candles))return json.data.candles;
+  if(json.result&&Array.isArray(json.result.candles))return json.result.candles;
   return null;
 }
 
-function orderCandles(list) {
+function orderCandles(list){
   const withTime=list.map(c=>({
-    candle:c,
-    time:typeof c.time==="number" ? c.time : Date.parse(c.time)
+    candle:c,time:typeof c.time==="number"?c.time:Date.parse(c.time)
   }));
-
-  if(withTime.every(v=>Number.isFinite(v.time))) {
+  if(withTime.every(v=>Number.isFinite(v.time))){
     withTime.sort((a,b)=>a.time-b.time);
     return withTime.map(v=>v.candle);
   }
@@ -896,24 +466,19 @@ function orderCandles(list) {
 }
 
 /* ---------- ERROR ---------- */
-function showError(message, raw=null) {
+function showError(message,raw=null){
   signal="ERROR";
   $("direction").textContent="ERROR";
   $("direction").className="direction wait";
   setStatus(message,"red");
-  drawEmptyChart("chart", "API DATA NOT AVAILABLE");
+  drawEmptyChart("chart","API DATA NOT AVAILABLE");
 }
 
 /* ---------- ANALYZE ---------- */
-async function analyze() {
+async function analyze(){
   const key=$("key").value.trim();
-
-  if(!key) {
-    alert("Enter API Key first");
-    $("key").focus();
-    return;
-  }
-  localStorage.setItem("stb_api_key", key);
+  if(!key){alert("Enter API Key first");$("key").focus();return;}
+  localStorage.setItem("stb_api_key",key);
 
   currentTF=$("tf").value;
   currentPair=displayPair($("pair").value);
@@ -924,70 +489,52 @@ async function analyze() {
   $("analyze").disabled=true;
   $("refresh").disabled=true;
   $("result").disabled=true;
-  
-  $("resultCard").classList.remove("active"); // Hide result box on new scan
+  $("resultCard").classList.remove("active");
 
   const params=new URLSearchParams({
-    timeframe:currentTF,
-    pair:$("pair").value,
-    count:$("count").value,
-    key:key
+    timeframe:currentTF,pair:$("pair").value,count:$("count").value,key:key
   });
 
   const url=API+"?"+params.toString();
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),60000);
 
-  try {
+  try{
     let res;
-    try {
-      res=await fetch(url,{
-        method:"GET",
-        signal:controller.signal,
-        cache:"no-store"
-      });
-    } catch(error) {
-      if(error.name==="AbortError") {
-        throw new Error("API SERVER NOT RESPONDING AFTER 60 SECONDS. Check server or network.");
-      }
-      if(error instanceof TypeError) {
-        throw new Error("NETWORK OR CORS ERROR. Browser could not access the API.");
-      }
+    try{
+      res=await fetch(url,{method:"GET",signal:controller.signal,cache:"no-store"});
+    }catch(error){
+      if(error.name==="AbortError")throw new Error("API SERVER NOT RESPONDING AFTER 60 SECONDS. Check server or network.");
+      if(error instanceof TypeError)throw new Error("NETWORK OR CORS ERROR. Browser could not access the API.");
       throw error;
     }
 
     const responseText=await res.text();
-    let json;
-    try {
-      json=JSON.parse(responseText);
-    } catch {
-      throw new Error("API DID NOT RETURN VALID JSON. HTTP "+res.status);
+
+    // API EXPIRED: SHOW ONLY WAIT FOR API
+    if(res.status===403){
+      throw new Error("Wait for API");
     }
+
+    let json;
+    try{json=JSON.parse(responseText);}
+    catch{throw new Error("API DID NOT RETURN VALID JSON. HTTP "+res.status);}
 
     lastRaw=json;
 
-    if(!res.ok) {
-      throw new Error("HTTP "+res.status+" "+(json.error||""));
-    }
-    if(json.success===false) {
-      throw new Error(json.error||json.message||json.code||"API reported failure");
-    }
+    if(!res.ok)throw new Error("HTTP "+res.status+" "+(json.error||""));
+    if(json.success===false)throw new Error(json.error||json.message||json.code||"API reported failure");
 
     const raw=extractCandles(json);
-    if(!raw || raw.length===0) {
-      throw new Error("NO CANDLE ARRAY FOUND.");
-    }
+    if(!raw||raw.length===0)throw new Error("NO CANDLE ARRAY FOUND.");
 
     let parsed=raw.map(candleData).filter(c=>
       [c.open,c.high,c.low,c.close].every(Number.isFinite)
     );
 
-    if(parsed.length<21) {
-      throw new Error("ONLY "+parsed.length+" VALID CANDLES FOUND. At least 21 are needed.");
-    }
+    if(parsed.length<21)throw new Error("ONLY "+parsed.length+" VALID CANDLES FOUND. At least 21 are needed.");
 
     candles=orderCandles(parsed);
-
     const closes=candles.map(c=>c.close);
     ema9=ema(closes,9);
     ema21=ema(closes,21);
@@ -995,33 +542,27 @@ async function analyze() {
     const last=candles[candles.length-1];
     latestPrice=last.close;
 
-    if(ema9>ema21 && last.close>ema9) signal="CALL";
-    else if(ema9<ema21 && last.close<ema9) signal="PUT";
+    if(ema9>ema21&&last.close>ema9)signal="CALL";
+    else if(ema9<ema21&&last.close<ema9)signal="PUT";
     else signal="WAIT";
 
     lastUpdate=dhakaTime();
     entryTime=getEntryTime();
 
-    // Calculate Arrow
-    entryIndex = candles.length - 2; 
-    const tfMins = Number(currentTF.substring(1));
-    for (let i = candles.length - 1; i >= Math.max(0, candles.length - 5); i--) {
-        let cTimeStr = getCandleTimeStr(candles[i].time);
-        if (cTimeStr) {
-            let closeTime = addMinsToTime(cTimeStr, tfMins);
-            if (closeTime === entryTime) {
-                entryIndex = i;
-                break;
-            }
-        }
+    entryIndex=candles.length-2;
+    const tfMins=Number(currentTF.substring(1));
+    for(let i=candles.length-1;i>=Math.max(0,candles.length-5);i--){
+      let cTimeStr=getCandleTimeStr(candles[i].time);
+      if(cTimeStr){
+        let closeTime=addMinsToTime(cTimeStr,tfMins);
+        if(closeTime===entryTime){entryIndex=i;break;}
+      }
     }
-    if (entryIndex < 0) entryIndex = 0;
-    if (entryIndex >= candles.length) entryIndex = candles.length - 1;
+    if(entryIndex<0)entryIndex=0;
+    if(entryIndex>=candles.length)entryIndex=candles.length-1;
 
     $("direction").textContent=signal;
-    $("direction").className="direction "+
-      (signal==="CALL"?"call":signal==="PUT"?"put":"wait");
-
+    $("direction").className="direction "+(signal==="CALL"?"call":signal==="PUT"?"put":"wait");
     $("pairTitle").textContent=currentPair;
     $("marketTime").textContent="BANGLADESH TIME: "+lastUpdate;
     $("entry").textContent=entryTime;
@@ -1034,9 +575,9 @@ async function analyze() {
     setStatus("API CONNECTED SUCCESSFULLY • "+candles.length+" CANDLES","green");
     drawChart();
 
-  } catch(error) {
+  }catch(error){
     showError(error.message,lastRaw);
-  } finally {
+  }finally{
     clearTimeout(timeout);
     $("analyze").disabled=false;
     $("refresh").disabled=false;
@@ -1045,42 +586,29 @@ async function analyze() {
 }
 
 /* ---------- DRAW MAIN CHART ---------- */
-function drawChart() {
+function drawChart(){
   const c=$("chart"),x=c.getContext("2d");
   const w=c.width,h=c.height;
+  x.fillStyle="#060d16";x.fillRect(0,0,w,h);
 
-  x.fillStyle="#060d16";
-  x.fillRect(0,0,w,h);
-
-  if(!candles.length) {
-    drawEmptyChart("chart");
-    return;
-  }
+  if(!candles.length){drawEmptyChart("chart");return;}
 
   const max=Math.max(...candles.map(v=>v.high));
   const min=Math.min(...candles.map(v=>v.low));
-  const range=max-min || Math.max(Math.abs(max)*0.001,1);
-
+  const range=max-min||Math.max(Math.abs(max)*0.001,1);
   const left=105,right=30,top=75,bottom=45;
   const cw=w-left-right,ch=h-top-bottom;
   const y=v=>top+(max-v)/range*ch;
 
-  x.fillStyle="#00e0ff";
-  x.font="bold 20px Arial";
+  x.fillStyle="#00e0ff";x.font="bold 20px Arial";
   x.fillText("STB SIGNAL PRO",left,30);
-
-  x.fillStyle="#4a6485";
-  x.font="13px Arial";
+  x.fillStyle="#4a6485";x.font="13px Arial";
   x.fillText(currentPair+" | "+currentTF,left,53);
 
-  for(let i=0;i<=5;i++) {
+  for(let i=0;i<=5;i++){
     const yy=top+i*ch/5;
-    x.strokeStyle="#132033";
-    x.beginPath();x.moveTo(left,yy);x.lineTo(w-right,yy);x.stroke();
-
-    x.fillStyle="#5a7596";
-    x.font="12px Arial";
-    x.textAlign="right";
+    x.strokeStyle="#132033";x.beginPath();x.moveTo(left,yy);x.lineTo(w-right,yy);x.stroke();
+    x.fillStyle="#5a7596";x.font="12px Arial";x.textAlign="right";
     x.fillText(formatPrice(max-i*range/5),left-10,yy+4);
   }
 
@@ -1090,35 +618,22 @@ function drawChart() {
   candles.forEach((v,i)=>{
     const px=left+i*step+step/2;
     const color=v.close>=v.open?"#00e5a0":"#ff4d6a";
-
-    x.strokeStyle=color;
-    x.fillStyle=color;
-    x.lineWidth=1;
-
-    x.beginPath();
-    x.moveTo(px,y(v.high));
-    x.lineTo(px,y(v.low));
-    x.stroke();
-
+    x.strokeStyle=color;x.fillStyle=color;x.lineWidth=1;
+    x.beginPath();x.moveTo(px,y(v.high));x.lineTo(px,y(v.low));x.stroke();
     const topY=y(Math.max(v.open,v.close));
     const bh=Math.max(2,Math.abs(y(v.open)-y(v.close)));
     x.fillRect(px-bw/2,topY,bw,bh);
   });
 
-  function drawEMA(period,color) {
+  function drawEMA(period,color){
     const values=candles.map(v=>v.close);
     const k=2/(period+1);
     let e=values[0];
-
-    x.strokeStyle=color;
-    x.lineWidth=2;
-    x.beginPath();
-
+    x.strokeStyle=color;x.lineWidth=2;x.beginPath();
     values.forEach((v,i)=>{
       e=i===0?v:v*k+e*(1-k);
       const px=left+i*step+step/2;
-      if(i===0)x.moveTo(px,y(e));
-      else x.lineTo(px,y(e));
+      if(i===0)x.moveTo(px,y(e));else x.lineTo(px,y(e));
     });
     x.stroke();
   }
@@ -1126,418 +641,299 @@ function drawChart() {
   drawEMA(9,"#ffd34f");
   drawEMA(21,"#4ca9ff");
 
-  if ((signal === "CALL" || signal === "PUT") && entryIndex >= 0 && entryIndex < candles.length) {
-    const v = candles[entryIndex];
-    const px = left + entryIndex * step + step / 2;
-    const arrowY = signal === "CALL" ? y(v.low) + 28 : y(v.high) - 28;
-    const dir = signal === "CALL" ? -1 : 1;
-
+  if((signal==="CALL"||signal==="PUT")&&entryIndex>=0&&entryIndex<candles.length){
+    const v=candles[entryIndex];
+    const px=left+entryIndex*step+step/2;
+    const arrowY=signal==="CALL"?y(v.low)+28:y(v.high)-28;
+    const dir=signal==="CALL"?-1:1;
     x.save();
-    x.fillStyle = signal === "CALL" ? "#00e5a0" : "#ff4d6a";
-    x.strokeStyle = signal === "CALL" ? "#00e5a0" : "#ff4d6a";
-    x.lineWidth = 2;
-    x.beginPath();
-    x.moveTo(px, arrowY + 18 * dir);
-    x.lineTo(px - 9, arrowY);
-    x.lineTo(px + 9, arrowY);
-    x.closePath();
-    x.fill();
-    x.stroke();
-    x.restore();
+    x.fillStyle=signal==="CALL"?"#00e5a0":"#ff4d6a";
+    x.strokeStyle=signal==="CALL"?"#00e5a0":"#ff4d6a";
+    x.lineWidth=2;x.beginPath();
+    x.moveTo(px,arrowY+18*dir);x.lineTo(px-9,arrowY);x.lineTo(px+9,arrowY);
+    x.closePath();x.fill();x.stroke();x.restore();
   }
 
-  x.textAlign="right";
-  x.font="bold 14px Arial";
-  x.fillStyle="#ffd34f";
-  x.fillText("EMA 9",w-115,30);
-  x.fillStyle="#4ca9ff";
-  x.fillText("EMA 21",w-25,53);
+  x.textAlign="right";x.font="bold 14px Arial";
+  x.fillStyle="#ffd34f";x.fillText("EMA 9",w-115,30);
+  x.fillStyle="#4ca9ff";x.fillText("EMA 21",w-25,53);
   x.textAlign="left";
 }
 
-/* ---------- DRAW RESULT CHART (Zoomed on Entry Candle) ---------- */
-function drawResultChart() {
-  const c = $("resultChart"), x = c.getContext("2d");
-  const w = c.width, h = c.height;
+/* ---------- DRAW RESULT CHART ---------- */
+function drawResultChart(){
+  const c=$("resultChart"),x=c.getContext("2d");
+  const w=c.width,h=c.height;
+  x.fillStyle="#060d16";x.fillRect(0,0,w,h);
 
-  x.fillStyle = "#060d16";
-  x.fillRect(0, 0, w, h);
-
-  if (resultCandles.length === 0) {
-    x.textAlign = "center";
-    x.fillStyle = "#4a6485";
-    x.font = "14px Arial";
-    x.fillText("NO CHART DATA", w/2, h/2);
-    return;
+  if(resultCandles.length===0){
+    x.textAlign="center";x.fillStyle="#4a6485";x.font="14px Arial";
+    x.fillText("NO CHART DATA",w/2,h/2);return;
   }
 
-  const max = Math.max(...resultCandles.map(v=>v.high));
-  const min = Math.min(...resultCandles.map(v=>v.low));
-  const range = max - min || Math.max(Math.abs(max)*0.001, 1);
+  const max=Math.max(...resultCandles.map(v=>v.high));
+  const min=Math.min(...resultCandles.map(v=>v.low));
+  const range=max-min||Math.max(Math.abs(max)*0.001,1);
+  const left=80,right=20,top=20,bottom=20;
+  const cw=w-left-right,ch=h-top-bottom;
+  const y=v=>top+(max-v)/range*ch;
 
-  const left = 80, right = 20, top = 20, bottom = 20;
-  const cw = w - left - right, ch = h - top - bottom;
-  const y = v => top + (max - v) / range * ch;
-
-  // Grid lines
-  x.strokeStyle = "#132033";
-  x.lineWidth = 1;
-  for(let i=0;i<=4;i++) {
-    const yy = top + i * ch / 4;
-    x.beginPath(); x.moveTo(left, yy); x.lineTo(w-right, yy); x.stroke();
-    x.fillStyle = "#5a7596";
-    x.font = "11px Arial";
-    x.textAlign = "right";
-    x.fillText(formatPrice(max - i * range / 4), left - 8, yy + 4);
+  x.strokeStyle="#132033";x.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const yy=top+i*ch/4;
+    x.beginPath();x.moveTo(left,yy);x.lineTo(w-right,yy);x.stroke();
+    x.fillStyle="#5a7596";x.font="11px Arial";x.textAlign="right";
+    x.fillText(formatPrice(max-i*range/4),left-8,yy+4);
   }
 
-  const step = cw / resultCandles.length;
-  const bw = Math.max(4, Math.min(25, step * 0.65));
+  const step=cw/resultCandles.length;
+  const bw=Math.max(4,Math.min(25,step*.65));
 
-  resultCandles.forEach((v, i) => {
-    const px = left + i * step + step / 2;
-    const color = v.close >= v.open ? "#00e5a0" : "#ff4d6a";
-
-    x.strokeStyle = color;
-    x.fillStyle = color;
-    x.lineWidth = 2;
-
-    x.beginPath();
-    x.moveTo(px, y(v.high));
-    x.lineTo(px, y(v.low));
-    x.stroke();
-
-    const topY = y(Math.max(v.open, v.close));
-    const bh = Math.max(2, Math.abs(y(v.open) - y(v.close)));
-    x.fillRect(px - bw / 2, topY, bw, bh);
+  resultCandles.forEach((v,i)=>{
+    const px=left+i*step+step/2;
+    const color=v.close>=v.open?"#00e5a0":"#ff4d6a";
+    x.strokeStyle=color;x.fillStyle=color;x.lineWidth=2;
+    x.beginPath();x.moveTo(px,y(v.high));x.lineTo(px,y(v.low));x.stroke();
+    const topY=y(Math.max(v.open,v.close));
+    const bh=Math.max(2,Math.abs(y(v.open)-y(v.close)));
+    x.fillRect(px-bw/2,topY,bw,bh);
   });
 }
 
-/* ---------- SCREENSHOT (Signal) ---------- */
-function downloadScreenshot() {
-  if(!candles.length) {
-    alert("Please analyze market first");
-    return;
-  }
+/* ---------- SCREENSHOT (SIGNAL) ---------- */
+function downloadScreenshot(){
+  if(!candles.length){alert("Please analyze market first");return;}
 
   const out=document.createElement("canvas");
-  out.width=1400;
-  out.height=1250;
+  out.width=1400;out.height=1250;
   const ctx=out.getContext("2d");
-
   const bg=ctx.createLinearGradient(0,0,1400,1250);
-  bg.addColorStop(0,"#0d1b2e");
-  bg.addColorStop(1,"#050a11");
-  ctx.fillStyle=bg;
-  ctx.fillRect(0,0,1400,1250);
+  bg.addColorStop(0,"#0d1b2e");bg.addColorStop(1,"#050a11");
+  ctx.fillStyle=bg;ctx.fillRect(0,0,1400,1250);
 
-  function box(x,y,w,h,r,color,stroke) {
-    ctx.beginPath();
-    ctx.roundRect(x,y,w,h,r);
-    ctx.fillStyle=color;
-    ctx.fill();
-    if(stroke) {
-      ctx.strokeStyle=stroke;
-      ctx.lineWidth=2;
-      ctx.stroke();
-    }
+  function box(x,y,w,h,r,color,stroke){
+    ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}
   }
 
-  ctx.textAlign="center";
-  ctx.fillStyle="#00e0ff";
-  ctx.font="bold 65px Arial";
-  ctx.fillText("STB SIGNAL",700,100);
-
-  ctx.fillStyle="#7b8fae";
-  ctx.font="22px Arial";
+  ctx.textAlign="center";ctx.fillStyle="#00e0ff";
+  ctx.font="bold 65px Arial";ctx.fillText("STB SIGNAL",700,100);
+  ctx.fillStyle="#7b8fae";ctx.font="22px Arial";
   ctx.fillText("PROFESSIONAL SIGNAL ANALYSIS",700,145);
 
   box(70,185,1260,300,25,"#0a1423","#1c2a40");
-
-  ctx.fillStyle="#7b8fae";
-  ctx.font="22px Arial";
-  ctx.fillText("TRADING PAIR",700,235);
-
-  ctx.fillStyle="#fff";
-  ctx.font="bold 45px Arial";
-  ctx.fillText(currentPair,700,290);
-
-  ctx.fillStyle=signal==="CALL"?"#00e5a0":
-    signal==="PUT"?"#ff4d6a":"#e6bd55";
-
-  ctx.font="bold 105px Arial";
-  ctx.fillText(signal,700,410);
-
-  ctx.fillStyle="#7b8fae";
-  ctx.font="22px Arial";
-  ctx.fillText("SIGNAL DIRECTION",700,455);
+  ctx.fillStyle="#7b8fae";ctx.font="22px Arial";ctx.fillText("TRADING PAIR",700,235);
+  ctx.fillStyle="#fff";ctx.font="bold 45px Arial";ctx.fillText(currentPair,700,290);
+  ctx.fillStyle=signal==="CALL"?"#00e5a0":signal==="PUT"?"#ff4d6a":"#e6bd55";
+  ctx.font="bold 105px Arial";ctx.fillText(signal,700,410);
+  ctx.fillStyle="#7b8fae";ctx.font="22px Arial";ctx.fillText("SIGNAL DIRECTION",700,455);
 
   const items=[
-    ["ENTRY TIME",entryTime],
-    ["TIMEFRAME",currentTF],
-    ["ENTRY PRICE",formatPrice(latestPrice)],
-    ["EMA 9",formatPrice(ema9)],
-    ["EMA 21",formatPrice(ema21)],
-    ["CANDLES",String(candles.length)]
+    ["ENTRY TIME",entryTime],["TIMEFRAME",currentTF],["ENTRY PRICE",formatPrice(latestPrice)],
+    ["EMA 9",formatPrice(ema9)],["EMA 21",formatPrice(ema21)],["CANDLES",String(candles.length)]
   ];
 
   items.forEach((item,i)=>{
     const col=i%3,row=Math.floor(i/3);
     const px=70+col*425,py=510+row*110;
-
     box(px,py,405,90,14,"#14243a","#1c2a40");
-
-    ctx.fillStyle="#7b8fae";
-    ctx.font="17px Arial";
-    ctx.fillText(item[0],px+202,py+32);
-
-    ctx.fillStyle="#fff";
-    ctx.font="bold 25px Arial";
-    ctx.fillText(item[1],px+202,py+67);
+    ctx.fillStyle="#7b8fae";ctx.font="17px Arial";ctx.fillText(item[0],px+202,py+32);
+    ctx.fillStyle="#fff";ctx.font="bold 25px Arial";ctx.fillText(item[1],px+202,py+67);
   });
 
   box(70,755,1260,365,18,"#060d16","#1c2a40");
   ctx.drawImage($("chart"),85,770,1230,335);
-
-  ctx.fillStyle="#5a7596";
-  ctx.font="17px Arial";
+  ctx.fillStyle="#5a7596";ctx.font="17px Arial";
   ctx.fillText("BANGLADESH TIME: "+lastUpdate+" | STB OWNER",700,1170);
-
-  ctx.fillStyle="#00e0ff";
-  ctx.font="bold 22px Arial";
+  ctx.fillStyle="#00e0ff";ctx.font="bold 22px Arial";
   ctx.fillText("STB SIGNAL PRO",700,1210);
 
   const link=document.createElement("a");
   link.download="STB_"+currentPair.replace(/\s/g,"_")+"_"+signal+".png";
-  link.href=out.toDataURL("image/png");
-  link.click();
+  link.href=out.toDataURL("image/png");link.click();
 }
 
 /* ---------- RESULT CHECK ---------- */
-async function checkResult() {
+async function checkResult(){
   const key=$("key").value.trim();
-  if(!key) {
-    alert("Enter API Key first");
-    $("key").focus();
-    return;
-  }
-  if(!candles.length || signal==="WAITING" || signal==="ERROR") {
-    alert("Please generate a signal first (Scan Market).");
-    return;
+  if(!key){alert("Enter API Key first");$("key").focus();return;}
+  if(!candles.length||signal==="WAITING"||signal==="ERROR"){
+    alert("Please generate a signal first (Scan Market).");return;
   }
 
   $("result").disabled=true;
   setStatus("FETCHING RESULT DATA...","yellow");
 
   const params=new URLSearchParams({
-    timeframe:currentTF,
-    pair:$("pair").value,
-    count:"30",
-    key:key
+    timeframe:currentTF,pair:$("pair").value,count:"30",key:key
   });
 
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),60000);
 
-  try {
+  try{
     const res=await fetch(API+"?"+params.toString(),{
       method:"GET",signal:controller.signal,cache:"no-store"
     });
 
     const txt=await res.text();
+
+    // API EXPIRED: SHOW ONLY WAIT FOR API
+    if(res.status===403){
+      throw new Error("Wait for API");
+    }
+
     let json;
-    try { json=JSON.parse(txt); }
-    catch { throw new Error("Invalid JSON response for result"); }
+    try{json=JSON.parse(txt);}
+    catch{throw new Error("Invalid JSON response for result");}
 
-    const raw = extractCandles(json);
-    if(!raw || !raw.length) throw new Error("No result candle data returned");
+    if(!res.ok){
+      throw new Error("HTTP "+res.status+" "+(json.error||json.message||""));
+    }
+    if(json.success===false){
+      throw new Error(json.error||json.message||json.code||"API reported failure");
+    }
 
-    let parsed = raw.map(candleData).filter(c=>
+    const raw=extractCandles(json);
+    if(!raw||!raw.length)throw new Error("No result candle data returned");
+
+    let parsed=raw.map(candleData).filter(c=>
       [c.open,c.high,c.low,c.close].every(Number.isFinite)
     );
-    parsed = orderCandles(parsed);
-    if(parsed.length < 2) throw new Error("Not enough candles for result");
+    parsed=orderCandles(parsed);
+    if(parsed.length<2)throw new Error("Not enough candles for result");
 
-    // Find exact candle
-    let resultRefCandle = null;
-    let resultEntryCandle = null;
-    let entryCandleIdx = -1;
-    const tfMins = Number(currentTF.substring(1));
+    let resultRefCandle=null;
+    let resultEntryCandle=null;
+    let entryCandleIdx=-1;
+    const tfMins=Number(currentTF.substring(1));
 
-    for (let i = 0; i < parsed.length; i++) {
-        let cTimeStr = getCandleTimeStr(parsed[i].time);
-        if (cTimeStr) {
-            let closeTime = addMinsToTime(cTimeStr, tfMins);
-            if (closeTime === entryTime && i < parsed.length - 1) {
-                resultRefCandle = parsed[i];     
-                resultEntryCandle = parsed[i + 1]; 
-                entryCandleIdx = i + 1;
-                break;
-            }
+    for(let i=0;i<parsed.length;i++){
+      let cTimeStr=getCandleTimeStr(parsed[i].time);
+      if(cTimeStr){
+        let closeTime=addMinsToTime(cTimeStr,tfMins);
+        if(closeTime===entryTime&&i<parsed.length-1){
+          resultRefCandle=parsed[i];
+          resultEntryCandle=parsed[i+1];
+          entryCandleIdx=i+1;
+          break;
         }
+      }
     }
 
-    // Fallback
-    if (!resultRefCandle || !resultEntryCandle) {
-        resultRefCandle = parsed[parsed.length - 2];
-        resultEntryCandle = parsed[parsed.length - 1];
-        entryCandleIdx = parsed.length - 1;
+    if(!resultRefCandle||!resultEntryCandle){
+      resultRefCandle=parsed[parsed.length-2];
+      resultEntryCandle=parsed[parsed.length-1];
+      entryCandleIdx=parsed.length-1;
     }
 
-    let result = "DRAW";
-    if (signal === "CALL") {
-      if (resultEntryCandle.close > resultRefCandle.close) result = "WIN";
-      else if (resultEntryCandle.close < resultRefCandle.close) result = "LOSS";
-    } else if (signal === "PUT") {
-      if (resultEntryCandle.close < resultRefCandle.close) result = "WIN";
-      else if (resultEntryCandle.close > resultRefCandle.close) result = "LOSS";
-    } else {
-      result = "NO TRADE";
+    let result="DRAW";
+    if(signal==="CALL"){
+      if(resultEntryCandle.close>resultRefCandle.close)result="WIN";
+      else if(resultEntryCandle.close<resultRefCandle.close)result="LOSS";
+    }else if(signal==="PUT"){
+      if(resultEntryCandle.close<resultRefCandle.close)result="WIN";
+      else if(resultEntryCandle.close>resultRefCandle.close)result="LOSS";
+    }else{
+      result="NO TRADE";
     }
 
-    // Extract last 7 candles up to entry candle for zoomed chart
-    let startIdx = Math.max(0, entryCandleIdx - 5);
-    resultCandles = parsed.slice(startIdx, entryCandleIdx + 2);
+    let startIdx=Math.max(0,entryCandleIdx-5);
+    resultCandles=parsed.slice(startIdx,entryCandleIdx+2);
 
-    currentResultData = {
-      pair: currentPair,
-      timeframe: currentTF,
-      direction: signal,
-      entryTime: entryTime,
-      refClose: resultRefCandle.close,
-      entryClose: resultEntryCandle.close,
-      result: result,
-      time: dhakaTime()
+    currentResultData={
+      pair:currentPair,timeframe:currentTF,direction:signal,
+      entryTime:entryTime,refClose:resultRefCandle.close,
+      entryClose:resultEntryCandle.close,result:result,time:dhakaTime()
     };
 
     setStatus("RESULT: "+result+" • "+currentPair+" "+currentTF,"green");
     showResultCard(currentResultData);
 
-  } catch(error) {
-    setStatus("RESULT FETCH FAILED: "+error.message,"red");
-  } finally {
+  }catch(error){
+    // Keep the API expiry message clean; don't prepend RESULT FETCH FAILED.
+    if(error.message==="Wait for API"){
+      setStatus("Wait for API","yellow");
+    }else{
+      setStatus("RESULT FETCH FAILED: "+error.message,"red");
+    }
+  }finally{
     clearTimeout(timeout);
     $("result").disabled=false;
   }
 }
 
 /* ---------- SHOW RESULT CARD ---------- */
-function showResultCard(data) {
+function showResultCard(data){
   $("resultCard").classList.add("active");
-  
-  $("resPairLabel").textContent = data.pair + " • " + data.timeframe;
-  
-  const badge = $("resBadge");
-  badge.textContent = data.result;
-  badge.className = "result-badge " + (data.result === "WIN" ? "win" : data.result === "LOSS" ? "loss" : "draw");
-  
-  $("resDirection").textContent = data.direction;
-  $("resDirection").style.color = data.direction === "CALL" ? "#00e5a0" : "#ff4d6a";
-  
-  $("resEntryTime").textContent = data.entryTime;
-  $("resRefClose").textContent = formatPrice(data.refClose);
-  $("resEntryClose").textContent = formatPrice(data.entryClose);
-  
+  $("resPairLabel").textContent=data.pair+" • "+data.timeframe;
+
+  const badge=$("resBadge");
+  badge.textContent=data.result;
+  badge.className="result-badge "+(data.result==="WIN"?"win":data.result==="LOSS"?"loss":"draw");
+
+  $("resDirection").textContent=data.direction;
+  $("resDirection").style.color=data.direction==="CALL"?"#00e5a0":"#ff4d6a";
+  $("resEntryTime").textContent=data.entryTime;
+  $("resRefClose").textContent=formatPrice(data.refClose);
+  $("resEntryClose").textContent=formatPrice(data.entryClose);
   drawResultChart();
 }
 
 /* ---------- RESULT SCREENSHOT ---------- */
-function downloadResultScreenshot() {
-  if (!currentResultData) return;
-  const data = currentResultData;
-
+function downloadResultScreenshot(){
+  if(!currentResultData)return;
+  const data=currentResultData;
   const out=document.createElement("canvas");
-  out.width=1400;
-  out.height=900;
+  out.width=1400;out.height=900;
   const ctx=out.getContext("2d");
 
   const bg=ctx.createLinearGradient(0,0,1400,900);
-  bg.addColorStop(0,"#0d1b2e");
-  bg.addColorStop(1,"#050a11");
-  ctx.fillStyle=bg;
-  ctx.fillRect(0,0,1400,900);
+  bg.addColorStop(0,"#0d1b2e");bg.addColorStop(1,"#050a11");
+  ctx.fillStyle=bg;ctx.fillRect(0,0,1400,900);
 
-  function box(x,y,w,h,r,color,stroke) {
-    ctx.beginPath();
-    ctx.roundRect(x,y,w,h,r);
-    ctx.fillStyle=color;
-    ctx.fill();
-    if(stroke) {
-      ctx.strokeStyle=stroke;
-      ctx.lineWidth=2;
-      ctx.stroke();
-    }
+  function box(x,y,w,h,r,color,stroke){
+    ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();
+    if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}
   }
 
-  ctx.textAlign="center";
-  ctx.fillStyle="#00e0ff";
-  ctx.font="bold 60px Arial";
-  ctx.fillText("STB SIGNAL",700,80);
-
-  ctx.fillStyle="#7b8fae";
-  ctx.font="20px Arial";
+  ctx.textAlign="center";ctx.fillStyle="#00e0ff";
+  ctx.font="bold 60px Arial";ctx.fillText("STB SIGNAL",700,80);
+  ctx.fillStyle="#7b8fae";ctx.font="20px Arial";
   ctx.fillText("TRADE RESULT ANALYSIS",700,125);
 
   box(70,160,1260,520,25,"#0a1423","#1c2a40");
+  ctx.fillStyle="#7b8fae";ctx.font="22px Arial";ctx.fillText("PAIR",700,215);
+  ctx.fillStyle="#fff";ctx.font="bold 40px Arial";ctx.fillText(data.pair,700,265);
 
-  ctx.fillStyle="#7b8fae";
-  ctx.font="22px Arial";
-  ctx.fillText("PAIR",700,215);
+  const resColor=data.result==="WIN"?"#00e5a0":data.result==="LOSS"?"#ff4d6a":"#e6bd55";
+  ctx.fillStyle=resColor;ctx.font="bold 110px Arial";ctx.fillText(data.result,700,400);
+  ctx.fillStyle="#7b8fae";ctx.font="20px Arial";ctx.fillText("RESULT",700,440);
 
-  ctx.fillStyle="#fff";
-  ctx.font="bold 40px Arial";
-  ctx.fillText(data.pair,700,265);
-
-  const resColor = data.result==="WIN" ? "#00e5a0" :
-                   data.result==="LOSS" ? "#ff4d6a" : "#e6bd55";
-
-  ctx.fillStyle=resColor;
-  ctx.font="bold 110px Arial";
-  ctx.fillText(data.result,700,400);
-
-  ctx.fillStyle="#7b8fae";
-  ctx.font="20px Arial";
-  ctx.fillText("RESULT",700,440);
-
-  const details = [
-    ["DIRECTION", data.direction],
-    ["ENTRY TIME", data.entryTime],
-    ["TIMEFRAME", data.timeframe],
-    ["REF CLOSE", formatPrice(data.refClose)],
-    ["ENTRY CLOSE", formatPrice(data.entryClose)],
-    ["STATUS", data.result]
+  const details=[
+    ["DIRECTION",data.direction],["ENTRY TIME",data.entryTime],["TIMEFRAME",data.timeframe],
+    ["REF CLOSE",formatPrice(data.refClose)],["ENTRY CLOSE",formatPrice(data.entryClose)],["STATUS",data.result]
   ];
 
   details.forEach((item,i)=>{
     const col=i%3,row=Math.floor(i/3);
     const px=100+col*410,py=480+row*110;
-
     box(px,py,390,90,14,"#14243a","#1c2a40");
-
-    ctx.fillStyle="#7b8fae";
-    ctx.font="16px Arial";
-    ctx.fillText(item[0],px+195,py+32);
-
-    ctx.fillStyle="#fff";
-    ctx.font="bold 22px Arial";
-    ctx.fillText(item[1],px+195,py+67);
+    ctx.fillStyle="#7b8fae";ctx.font="16px Arial";ctx.fillText(item[0],px+195,py+32);
+    ctx.fillStyle="#fff";ctx.font="bold 22px Arial";ctx.fillText(item[1],px+195,py+67);
   });
 
-  // Use zoomed result chart
-  if(resultCandles.length) {
+  if(resultCandles.length){
     box(70,710,1260,120,18,"#060d16","#1c2a40");
-    // Scale the resultChart to fit
     ctx.drawImage($("resultChart"),85,720,1230,100);
   }
 
-  ctx.fillStyle="#5a7596";
-  ctx.font="16px Arial";
+  ctx.fillStyle="#5a7596";ctx.font="16px Arial";
   ctx.fillText("GENERATED: "+data.time+" | STB OWNER",700,860);
 
   const link=document.createElement("a");
   link.download="STB_RESULT_"+data.pair.replace(/\s/g,"_")+"_"+data.result+".png";
-  link.href=out.toDataURL("image/png");
-  link.click();
+  link.href=out.toDataURL("image/png");link.click();
 }
 
 /* ---------- EVENTS ---------- */
@@ -1545,7 +941,7 @@ $("analyze").addEventListener("click",analyze);
 $("refresh").addEventListener("click",analyze);
 $("download").addEventListener("click",downloadScreenshot);
 $("result").addEventListener("click",checkResult);
-$("downloadResultBtn").addEventListener("click", downloadResultScreenshot);
+$("downloadResultBtn").addEventListener("click",downloadResultScreenshot);
 
 $("pair").addEventListener("change",()=>{
   currentPair=displayPair($("pair").value);
@@ -1562,12 +958,10 @@ currentPair=displayPair($("pair").value);
 $("pairTitle").textContent=currentPair;
 $("timeframe").textContent=$("tf").value;
 
-const savedKey = localStorage.getItem("stb_api_key");
-if (savedKey) {
-  $("key").value = savedKey;
-}
+const savedKey=localStorage.getItem("stb_api_key");
+if(savedKey)$("key").value=savedKey;
 
 drawEmptyChart("chart");
 </script>
 </body>
-  </html>
+</html>
