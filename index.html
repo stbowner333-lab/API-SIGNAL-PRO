@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
 <title>STB SIGNAL PRO • Premium</title>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -55,7 +56,8 @@ body{
 .sub{position:relative;z-index:1;font-size:11px;color:var(--dim);letter-spacing:3.5px;margin-top:16px;text-transform:uppercase}
 .sub span{color:var(--accent);font-weight:700}
 
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:17px}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:17px}
+@media(max-width:720px){.modes{grid-template-columns:repeat(2,1fr)}}
 .mode{
   background:var(--surface2);border:1px solid var(--border);color:var(--dim);
   padding:15px 8px;border-radius:var(--radius-sm);font-size:11px;font-weight:700;
@@ -197,10 +199,46 @@ canvas{width:100%;height:auto;display:block}
 .footer{text-align:center;color:#3d5068;font-size:11px;padding:26px 20px 18px;letter-spacing:1px;line-height:1.8}
 .footer strong{color:var(--dim);font-weight:600}
 .live-info{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.live-info .stat{padding:11px}
-.live-info strong{font-size:13px}
-.live-info small{font-size:8px}
+.live-info .stat{padding:11px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);text-align:center}
+.live-info strong{font-size:13px;display:block;margin-top:4px}
+.live-info small{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
 #liveCanvas{width:100%;height:auto}
+
+/* CHART ANALYZER */
+.dropzone{
+  border:2px dashed #244061;border-radius:14px;padding:22px;
+  text-align:center;background:rgba(10,22,38,0.65);cursor:pointer;
+  transition:all .25s;position:relative
+}
+.dropzone:hover,.dropzone.dragover{
+  border-color:var(--accent);background:rgba(0,224,255,0.06);
+  box-shadow:0 0 25px rgba(0,224,255,0.12)
+}
+.dropzone input[type="file"]{display:none}
+.dropzone-icon{font-size:28px;margin-bottom:8px;display:block}
+.dropzone strong{display:block;font-size:13px;color:var(--text);letter-spacing:.6px}
+.dropzone small{display:block;font-size:11px;color:var(--dim);margin-top:5px}
+.preview-box{
+  margin-top:14px;border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;background:#060d16;text-align:center;padding:10px
+}
+.preview-box img{max-width:100%;max-height:300px;border-radius:8px;display:inline-block;object-fit:contain}
+.analyzer-result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+@media(min-width:720px){.analyzer-result-grid{grid-template-columns:repeat(4,1fr)}}
+.a-box{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:14px;text-align:center
+}
+.a-box small{display:block;font-size:10px;color:var(--dim);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
+.a-box strong{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.entry-highlight{
+  margin-top:14px;padding:16px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(0,224,255,0.12),rgba(0,102,255,0.12));
+  border:1px solid rgba(0,224,255,0.35);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px
+}
+.entry-highlight .lbl{font-size:10px;color:var(--dim);letter-spacing:1.6px;text-transform:uppercase;font-weight:700}
+.entry-highlight .val{font-size:24px;font-weight:900;color:var(--accent);letter-spacing:1px;font-variant-numeric:tabular-nums}
 @media(max-width:420px){body{padding:8px}.card{padding:15px}.live-info{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
@@ -218,6 +256,7 @@ canvas{width:100%;height:auto;display:block}
  <button class="mode active" data-mode="liveSignal">LIVE SIGNAL</button>
  <button class="mode" data-mode="futureSignal">FUTURE SIGNAL</button>
  <button class="mode" data-mode="liveChart">LIVE CHART</button>
+ <button class="mode" data-mode="chartAnalyzer">CHART ANALYZER</button>
 </div>
 
 <div class="card">
@@ -433,14 +472,6 @@ canvas{width:100%;height:auto;display:block}
 <section id="futureSignal" class="hidden">
  <div class="card">
   <h3>02 / FUTURE SIGNAL GENERATOR</h3>
-  <label>SELECT MARKET</label>
-  <select id="futureMarket">
-   <option value="otc">OTC MARKET</option>
-   <option value="live">LIVE MARKET</option>
-   <option value="both">BOTH OTC + LIVE</option>
-  </select>
-
-  <label>SELECT TRADING PAIRS</label>
   <div class="pair-list" id="futurePairs"></div>
   <div class="grid2">
    <div>
@@ -466,7 +497,7 @@ canvas{width:100%;height:auto;display:block}
  </div>
  <div class="card">
   <h3>04 / FUTURE SIGNAL INFORMATION</h3>
-  <div class="note">Signals are calculated from the latest API candle data using EMA 9 and EMA 21. Entry times are scheduled after analysis and are not guaranteed market predictions. WAIT/unclear analysis is skipped instead of inventing a direction.</div>
+  <div class="note">Signals are calculated from the latest API candle data using EMA 9 and EMA 21 on M1 timeframe. Entry times are scheduled after analysis and are not guaranteed market predictions. WAIT/unclear analysis is skipped instead of inventing a direction.</div>
  </div>
 </section>
 
@@ -474,11 +505,11 @@ canvas{width:100%;height:auto;display:block}
 <section id="liveChart" class="hidden">
  <div class="card">
   <h3>02 / LIVE MARKET CHART</h3>
-  <div class="signal" style="padding:15px;margin-bottom:14px">
-   <div class="signal-label">LIVE MARKET PRICE</div>
-   <div class="direction wait" id="chartPrice">--</div>
-   <div class="pair-title" id="chartPairTitle">EUR/USD OTC</div>
-   <div class="market-time" id="chartUpdated">LAST UPDATE: --</div>
+  <div class="signal" style="padding:15px;margin-bottom:14px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);text-align:center">
+   <div class="signal-label" style="font-size:10px;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase">LIVE MARKET PRICE</div>
+   <div class="direction wait" id="chartPrice" style="font-size:28px;font-weight:900;margin:6px 0">--</div>
+   <div class="pair-title" id="chartPairTitle" style="font-size:14px;font-weight:700">EUR/USD OTC</div>
+   <div class="market-time" id="chartUpdated" style="font-size:11px;color:var(--dim);margin-top:4px">LAST UPDATE: --</div>
   </div>
 
   <div class="live-info">
@@ -502,6 +533,62 @@ canvas{width:100%;height:auto;display:block}
   <button class="main" id="startChart">START LIVE CHART</button>
   <button class="secondary" id="stopChart">STOP LIVE CHART</button>
   <div class="note">Live chart uses historical candles from Qx.php and incoming prices from the Tick Stream. A real-time moving candle requires the Tick API to return live price events.</div>
+ </div>
+</section>
+
+<!-- CHART ANALYZER SECTION -->
+<section id="chartAnalyzer" class="hidden">
+ <div class="card">
+  <h3>02 / QUOTEX CHART SCREENSHOT ANALYZER</h3>
+  <p style="font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:14px">
+   Upload, drag &amp; drop, or paste (<code>Ctrl+V</code>) a Quotex chart screenshot. The analyzer detects the trading pair &amp; market type automatically, fetches live candle data from API, and generates a signal with exact <strong>Entry Time</strong>.
+  </p>
+
+  <div class="dropzone" id="dropzone">
+   <input type="file" id="screenshotInput" accept="image/*">
+   <span class="dropzone-icon">📷</span>
+   <strong>CLICK TO UPLOAD OR DRAG QUOTEX CHART SCREENSHOT</strong>
+   <small>Supports PNG, JPG, WEBP • Also supports clipboard paste (Ctrl+V)</small>
+  </div>
+
+  <div class="preview-box hidden" id="previewBox">
+   <img id="screenshotPreview" alt="Uploaded Quotex Screenshot">
+  </div>
+
+  <button class="main" id="runChartAnalyzer">DETECT PAIR &amp; GET API SIGNAL</button>
+  <div class="status" id="analyzerStatus"><span class="pulse-dot"></span>UPLOAD A QUOTEX CHART SCREENSHOT TO BEGIN</div>
+
+  <div class="entry-highlight">
+   <div>
+    <div class="lbl">NEXT ENTRY TIME (UTC+6)</div>
+    <div class="val" id="analyzerEntryTime">--:--</div>
+   </div>
+   <div style="text-align:right">
+    <div class="lbl">SIGNAL DIRECTION</div>
+    <div class="val wait" id="analyzerSignalBadge">WAITING</div>
+   </div>
+  </div>
+
+  <div class="analyzer-result-grid">
+   <div class="a-box">
+    <small>DETECTED PAIR</small>
+    <strong id="aDetectedPair">--</strong>
+   </div>
+   <div class="a-box">
+    <small>ENTRY PRICE</small>
+    <strong id="aEntryPrice">--</strong>
+   </div>
+   <div class="a-box">
+    <small>EMA 9 / EMA 21</small>
+    <strong id="aEmaInfo">-- / --</strong>
+   </div>
+   <div class="a-box">
+    <small>CONFIDENCE / RSI</small>
+    <strong id="aConfRsi">--</strong>
+   </div>
+  </div>
+
+  <div class="note" id="analyzerOcrText" style="word-break:break-word">OCR TEXT: --</div>
  </div>
 </section>
 
@@ -566,6 +653,11 @@ let metrics={
  trend:"NEUTRAL",momentum:"FLAT",volatility:"NORMAL",rsi:50
 };
 
+/* CHART ANALYZER STATE */
+let uploadedScreenshotFile=null;
+let uploadedScreenshotDataUrl="";
+let analyzerDetected={symbol:"EURUSD",market:"otc",pairLabel:"EUR/USD OTC"};
+
 /* LIVE TICK STATE */
 let tickController=null;
 let tickRunning=false;
@@ -584,6 +676,9 @@ let liveChartError="";
 /* BASIC HELPERS */
 function setStatus(msg,type=""){
  $("status").innerHTML='<span class="'+type+'">● '+esc(msg)+'</span>';
+}
+function setAnalyzerStatus(msg,type=""){
+ $("analyzerStatus").innerHTML='<span class="'+type+'">● '+esc(msg)+'</span>';
 }
 function esc(s){
  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1556,7 +1651,113 @@ function restartLiveChartIfRunning(){
  setTimeout(()=>startLiveChart(),250);
 }
 
-/* PAIR SELECTORS */
+/* CHART ANALYZER: PAIR DETECTION & API SIGNAL (AUTO ONLY, NO MANUAL SELECTORS) */
+function detectPairFromText(rawText,fileName=""){
+ const combined=(fileName+" "+rawText).toUpperCase();
+ const hasOtc=/\bOTC\b|_OTC|-OTC|\(OTC\)/.test(combined);
+ const detectedMarket=hasOtc?"otc":"live";
+ const pool=detectedMarket==="otc"?otcPairs:livePairs;
+
+ const normCombined=combined.replace(/[^A-Z0-9]/g,"");
+
+ for(const [sym,disp] of pool){
+  const cleanSym=sym.replace(/[^A-Z0-9]/g,"");
+  const cleanDisp=disp.replace(/[^A-Z0-9]/g,"");
+  if(cleanSym.length>=3&&(normCombined.includes(cleanSym)||normCombined.includes(cleanDisp))){
+   return {symbol:sym,market:detectedMarket,pairLabel:labelFor(sym,detectedMarket)};
+  }
+ }
+
+ const altPool=detectedMarket==="otc"?livePairs:otcPairs;
+ for(const [sym,disp] of altPool){
+  const cleanSym=sym.replace(/[^A-Z0-9]/g,"");
+  const cleanDisp=disp.replace(/[^A-Z0-9]/g,"");
+  if(cleanSym.length>=3&&(normCombined.includes(cleanSym)||normCombined.includes(cleanDisp))){
+   return {symbol:sym,market:detectedMarket,pairLabel:labelFor(sym,detectedMarket)};
+  }
+ }
+
+ return null;
+}
+
+function handleScreenshotFile(file){
+ if(!file||!file.type.startsWith("image/")){
+  setAnalyzerStatus("Please select a valid image file (PNG, JPG, WEBP).","red");
+  return;
+ }
+ uploadedScreenshotFile=file;
+ const reader=new FileReader();
+ reader.onload=ev=>{
+  uploadedScreenshotDataUrl=ev.target.result;
+  $("screenshotPreview").src=uploadedScreenshotDataUrl;
+  $("previewBox").classList.remove("hidden");
+
+  const quickMatch=detectPairFromText("",file.name);
+  if(quickMatch){
+   analyzerDetected=quickMatch;
+   $("aDetectedPair").textContent=quickMatch.pairLabel;
+  }
+  setAnalyzerStatus("Screenshot loaded. Click 'DETECT PAIR & GET API SIGNAL' to scan.","green");
+ };
+ reader.readAsDataURL(file);
+}
+
+async function runChartAnalyzer(){
+ if(!uploadedScreenshotDataUrl){
+  setAnalyzerStatus("Please upload or paste a Quotex chart screenshot first.","red");
+  return;
+ }
+
+ $("runChartAnalyzer").disabled=true;
+ try{
+  getKey();
+  setAnalyzerStatus("Reading screenshot text (OCR) to detect pair...","yellow");
+
+  let ocrText="";
+  if(window.Tesseract){
+   const ocrRes=await window.Tesseract.recognize(uploadedScreenshotDataUrl,"eng");
+   ocrText=(ocrRes?.data?.text||"").replace(/\s+/g," ").trim();
+  }
+  $("analyzerOcrText").textContent="OCR TEXT: "+(ocrText||"No text detected");
+
+  const detected=detectPairFromText(ocrText,uploadedScreenshotFile?.name||"");
+  if(!detected){
+   throw Error("Could not detect a trading pair from the screenshot. Try a clearer screenshot of the pair name.");
+  }
+
+  analyzerDetected=detected;
+  $("aDetectedPair").textContent=detected.pairLabel;
+
+  const tf="M1";
+  const count=$("count").value;
+  const nextEntry=getNextEntryTime(tf);
+
+  setAnalyzerStatus("Fetching API candles for "+detected.pairLabel+" ("+tf+")...","yellow");
+  const a=await fetchPair(detected.symbol,detected.market,tf,count);
+  const z=analyzeCandles(a);
+  const m=computeDashboardMetrics(a,z.signal,z.ema9,z.ema21);
+
+  $("analyzerEntryTime").textContent=nextEntry+" ("+tf+")";
+  $("analyzerSignalBadge").textContent=z.signal;
+  $("analyzerSignalBadge").className="val "+(z.signal==="CALL"?"call":z.signal==="PUT"?"put":"wait");
+
+  $("aEntryPrice").textContent=fmt(z.price);
+  $("aEmaInfo").textContent=fmt(z.ema9)+" / "+fmt(z.ema21);
+  $("aConfRsi").textContent=m.strength+"% / "+m.rsi;
+
+  setAnalyzerStatus(
+   "Signal Ready: "+z.signal+" for "+detected.pairLabel+" • Entry Time: "+nextEntry+" (UTC+6)",
+   z.signal==="CALL"||z.signal==="PUT"?"green":"yellow"
+  );
+ }catch(e){
+  if(e.message==="Wait for API")setAnalyzerStatus("Wait for API","yellow");
+  else setAnalyzerStatus("CHART ANALYZER ERROR: "+e.message,"red");
+ }finally{
+  $("runChartAnalyzer").disabled=false;
+ }
+}
+
+/* PAIR SELECTORS & FUTURE PAIRS */
 function setupPairs(){
  const market=$("market").value,arr=market==="otc"?otcPairs:livePairs;
  const previous=$("pair").value;
@@ -1568,16 +1769,13 @@ function setupPairs(){
  syncDashboardUI();
 }
 function buildFuturePairs(){
- const market=$("futureMarket").value;
- let list=[];
- if(market==="otc"||market==="both")list=list.concat(otcPairs.map(p=>({symbol:p[0],market:"otc",name:p[1]+" OTC"})));
- if(market==="live"||market==="both")list=list.concat(livePairs.map(p=>({symbol:p[0],market:"live",name:p[1]+" LIVE"})));
+ const list=otcPairs.map(p=>({symbol:p[0],market:"otc",name:p[1]+" OTC"}));
  $("futurePairs").innerHTML=list.map(p=>'<label class="pair-option"><input type="checkbox" class="futureCheck" value="'+p.symbol+'" data-market="'+p.market+'"><span>'+p.name+'</span></label>').join("");
 }
 function switchMode(mode){
  currentMode=mode;
  document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
- ["liveSignal","futureSignal","liveChart"].forEach(id=>$(id).classList.toggle("hidden",id!==mode));
+ ["liveSignal","futureSignal","liveChart","chartAnalyzer"].forEach(id=>$(id).classList.toggle("hidden",id!==mode));
  if(mode!=="liveChart")stopLiveChart();
 }
 document.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>switchMode(b.dataset.mode)));
@@ -1585,7 +1783,38 @@ $("market").addEventListener("change",()=>{
  setupPairs();
  if(tickRunning)restartLiveChartIfRunning();
 });
-$("futureMarket").addEventListener("change",buildFuturePairs);
+
+/* SCREENSHOT DROPZONE & PASTE EVENTS */
+$("dropzone").addEventListener("click",()=>$("screenshotInput").click());
+$("screenshotInput").addEventListener("change",e=>{
+ if(e.target.files&&e.target.files[0])handleScreenshotFile(e.target.files[0]);
+});
+$("dropzone").addEventListener("dragover",e=>{
+ e.preventDefault();
+ $("dropzone").classList.add("dragover");
+});
+$("dropzone").addEventListener("dragleave",()=>$("dropzone").classList.remove("dragover"));
+$("dropzone").addEventListener("drop",e=>{
+ e.preventDefault();
+ $("dropzone").classList.remove("dragover");
+ if(e.dataTransfer?.files&&e.dataTransfer.files[0]){
+  handleScreenshotFile(e.dataTransfer.files[0]);
+ }
+});
+document.addEventListener("paste",e=>{
+ if(currentMode!=="chartAnalyzer")return;
+ const items=e.clipboardData?.items||[];
+ for(const it of items){
+  if(it.type&&it.type.startsWith("image/")){
+   const blob=it.getAsFile();
+   if(blob){
+    handleScreenshotFile(blob);
+    break;
+   }
+  }
+ }
+});
+$("runChartAnalyzer").addEventListener("click",runChartAnalyzer);
 
 /* LIVE SIGNAL ANALYSIS */
 async function analyze(){
@@ -1706,9 +1935,6 @@ async function checkResult(){
   const tfMins=Number(currentTF.slice(1));
   const mtgTime=addTime(entryTime,tfMins);
 
-  /* Entry candle starts at entryTime and closes at entryTime + tfMins.
-     Ref candle is the candle right before entryTime (closes at entryTime).
-     1-Step MTG candle starts at mtgTime and closes at mtgTime + tfMins. */
   const refCandleTime=addTime(entryTime,-tfMins);
   let refIdx=-1;
   for(let i=0;i<parsed.length;i++){
@@ -1756,7 +1982,6 @@ async function checkResult(){
    statusType="yellow";
    noteText="Direct not WIN • 1-Step MTG candle ("+mtgTime+") not completed yet.";
   }else{
-   /* Check if MTG candle timeframe has completed or if latest candle is still forming */
    const lastCandleTimeStr=getCandleTimeStr(parsed[parsed.length-1].time);
    const isMtgLatestCandle=(mtgIdx===parsed.length-1);
    const nowParts=new Intl.DateTimeFormat("en-GB",{
@@ -2051,7 +2276,7 @@ function downloadResultScreenshot(){
 async function generateFuture(){
  const checks=[...document.querySelectorAll(".futureCheck:checked")];
  const wanted=Number($("signalCount").value);
- const tf=$("tf").value;
+ const tf="M1";
  const count=$("futureCount").value;
 
  if(!checks.length){
@@ -2192,4 +2417,4 @@ setInterval(()=>{
 },1000);
 </script>
 </body>
-    </html>
+  </html>
